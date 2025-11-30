@@ -1,0 +1,67 @@
+﻿@model InventoryMangmentMvc.Models.ProductCreateViewModel
+@{
+    ViewData["Title"] = "Create Product";
+}
+
+<div class="page-header">
+    <h1><i class="fas fa-plus-circle"></i> Create New Product</h1>
+    <p>Add a new product to the inventory system</p>
+</div>
+
+<div class="card">
+    <form asp-action="CreateProduct" method="post">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label>Product Name:</label>
+                <input asp-for="ProductName" class="form-control" required />
+                <span asp-validation-for="ProductName" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Quantity:</label>
+                <input asp-for="Quantity" type="number" class="form-control" min="0" required />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label>Material:</label>
+                <input asp-for="Material" class="form-control" required />
+                <span asp-validation-for="Material" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Size:</label>
+                <input asp-for="Size" class="form-control" required />
+                <span asp-validation-for="Size" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label>Type:</label>
+                <input asp-for="Type" class="form-control" required />
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Flavour:</label>
+                <input asp-for="Flavour" class="form-control" required />
+                <span asp-validation-for="Flavour" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label>Expiration Date:</label>
+                <input asp-for="ExpirationDate" type="date" class="form-control" />
+                <span asp-validation-for="ExpirationDate" class="text-danger"></span>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> Create Product
+        </button>
+        <a href="@Url.Action("Index")" class="btn btn-secondary">
+            <i class="fas fa-times"></i> Cancel
+        </a>
+    </form>
+</div>

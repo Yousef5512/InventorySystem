@@ -1,0 +1,72 @@
+﻿@model List<InventoryMangmentMvc.Models.ProductSendDetailViewModel>
+@{
+    ViewData["Title"] = "Send to External";
+}
+
+<div class="page-header">
+    <h1><i class="fas fa-paper-plane"></i> Send Products to External</h1>
+    <p>Create a new shipment to send products externally</p>
+</div>
+
+<div class="card">
+    <h5>Add Products to Send</h5>
+    <form asp-action="SendToExternal" method="post" id="sendForm">
+        <div id="productList">
+            <div class="row mb-3 product-row">
+                <div class="col-md-4">
+                    <label>Product ID:</label>
+                    <input type="number" name="[0].ProductId" class="form-control" required />
+                </div>
+                <div class="col-md-3">
+                    <label>Quantity:</label>
+                    <input type="number" name="[0].Quantity" class="form-control" min="1" required />
+                </div>
+                <div class="col-md-3">
+                    <label>Product Name:</label>
+                    <input type="text" name="[0].ProductName" class="form-control" />
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-secondary" onclick="addProduct()">
+            <i class="fas fa-plus"></i> Add Another Product
+        </button>
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-paper-plane"></i> Send Products
+        </button>
+        <a href="@Url.Action("Index")" class="btn btn-secondary">
+            <i class="fas fa-times"></i> Cancel
+        </a>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        let productIndex = 1;
+        function addProduct() {
+            const html = `
+                <div class="row mb-3 product-row">
+                    <div class="col-md-4">
+                        <label>Product ID:</label>
+                        <input type="number" name="[${productIndex}].ProductId" class="form-control" required />
+                    </div>
+                    <div class="col-md-3">
+                        <label>Quantity:</label>
+                        <input type="number" name="[${productIndex}].Quantity" class="form-control" min="1" required />
+                    </div>
+                    <div class="col-md-3">
+                        <label>Product Name:</label>
+                        <input type="text" name="[${productIndex}].ProductName" class="form-control" />
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="button" class="btn btn-danger" onclick="this.closest('.product-row').remove()">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('productList').insertAdjacentHTML('beforeend', html);
+            productIndex++;
+        }
+    </script>
+}

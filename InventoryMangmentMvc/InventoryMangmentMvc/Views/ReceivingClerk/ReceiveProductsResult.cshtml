@@ -1,0 +1,147 @@
+﻿@model InventoryMangmentMvc.Models.ProductSendViewModel
+@{
+    ViewData["Title"] = "Receive Products - Confirmation";
+}
+
+<div class="page-header">
+    <h1><i class="fas fa-clipboard-check"></i> Confirm Receipt</h1>
+    <p>Review and confirm the received products</p>
+</div>
+
+<div class="card">
+    <h5><i class="fas fa-info-circle"></i> Send Information</h5>
+    <div class="row">
+        <div class="col-md-4">
+            <strong>Send ID:</strong>
+            <p class="text-primary">#@Model.Id</p>
+        </div>
+        <div class="col-md-4">
+            <strong>Send Date:</strong>
+            <p>@Model.SendDate.ToString("MMMM dd, yyyy")</p>
+        </div>
+        <div class="col-md-4">
+            <strong>Status:</strong>
+            <p>
+                <span class="badge @(Model.Status == "Received" ? "bg-success" : "bg-warning")">
+                    @Model.Status
+                </span>
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h5><i class="fas fa-boxes"></i> Products to Receive</h5>
+
+    <form asp-action="UpdateInventoryChecked" method="post">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Product ID</th>
+                        <th>Expected Quantity</th>
+                        <th>Available</th>
+                        <th>Received</th>
+                        <th>Confirm Receipt</th>
+                        <th>Actual Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Details.Count; i++)
+                    {
+                        var detail = Model.Details[i];
+                        <tr>
+                            <td><strong>@detail.ProductName</strong></td>
+                            <td><code>@detail.ProductId</code></td>
+                            <td><span class="badge bg-info">@detail.Quantity</span></td>
+                            <td>
+                                @if (detail.Available)
+                                {
+                                    <span class="text-success"><i class="fas fa-check-circle"></i> Yes</span>
+                                }
+                                else
+                                {
+                                    <span class="text-danger"><i class="fas fa-times-circle"></i> No</span>
+                                }
+                            </td>
+                            <td>
+                                @if (detail.Received)
+                                {
+                                    <span class="text-success"><i class="fas fa-check-circle"></i> Yes</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted"><i class="fas fa-clock"></i> Pending</span>
+                                }
+                            </td>
+                            <td>
+                                <!-- Hidden field for ProductId -->
+                                <input type="hidden" name="receivedList[@i].ProductId" value="@detail.ProductId" />
+
+                                <!-- Checkbox for IsReceived -->
+                                <input type="checkbox"
+                                       name="receivedList[@i].IsReceived"
+                                       value="true"
+                                       class="form-check-input"
+                                       @(detail.Received ? "checked" : "") />
+
+                                <!-- Hidden field to ensure false value is sent when unchecked -->
+                                <input type="hidden" name="receivedList[@i].IsReceived" value="false" />
+                            </td>
+                            <td>
+                                <!-- Input for ReceivedQuantity -->
+                                <input type="number"
+                                       name="receivedList[@i].ReceivedQuantity"
+                                       class="form-control"
+                                       value="@detail.Quantity"
+                                       min="0"
+                                       max="@detail.Quantity"
+                                       style="width: 100px;"
+                                       required />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-3">
+            <button type="submit" class="btn btn-success btn-lg">
+                <i class="fas fa-check"></i> Confirm and Update Inventory
+            </button>
+            <a href="@Url.Action("Index")" class="btn btn-secondary btn-lg">
+                <i class="fas fa-times"></i> Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+<div class="alert alert-warning">
+    <i class="fas fa-exclamation-triangle"></i>
+    <strong>Important:</strong> Please verify all products physically before confirming receipt.
+    Adjust quantities if necessary. Uncheck items that were not received or are damaged.
+</div>
+
+@section Scripts {
+    <script>
+        // Optional: Add client-side validation or interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            // When checkbox is unchecked, optionally set quantity to 0
+            const checkboxes = document.querySelectorAll('input[type="checkbox"][name*="IsReceived"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const row = this.closest('tr');
+                    const quantityInput = row.querySelector('input[type="number"]');
+
+                    if (!this.checked) {
+                        // Optionally set quantity to 0 if not received
+                        if (confirm('Set quantity to 0 for this item?')) {
+                            quantityInput.value = 0;
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

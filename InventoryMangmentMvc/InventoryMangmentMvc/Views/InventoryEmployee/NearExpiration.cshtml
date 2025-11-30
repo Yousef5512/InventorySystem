@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Near Expiration Search";
+}
+
+<h2>Search Products Near Expiration</h2>
+
+<form method="post" asp-action="NearExpiration">
+    <div class="form-group">
+        <label>Days Until Expiration</label>
+        <input type="number" name="days" class="form-control" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Search</button>
+</form>

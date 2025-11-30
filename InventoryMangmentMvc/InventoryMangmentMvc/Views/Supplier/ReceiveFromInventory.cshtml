@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Receive from Inventory";
+}
+
+<div class="page-header">
+    <h1><i class="fas fa-inbox"></i> Receive from Inventory</h1>
+    <p>Process products sent from inventory department</p>
+</div>
+
+<div class="card">
+    <h5>Enter Product Send ID</h5>
+    <form asp-action="ReceiveFromInventory" method="post">
+        <div class="row">
+            <div class="col-md-8">
+                <label>Product Send ID:</label>
+                <input type="number" name="productSendId" class="form-control"
+                       placeholder="Enter send ID from inventory" required min="1" />
+                <small class="form-text text-muted">
+                    <i class="fas fa-info-circle"></i> This ID is provided by the inventory department
+                </small>
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-download"></i> Receive Products
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

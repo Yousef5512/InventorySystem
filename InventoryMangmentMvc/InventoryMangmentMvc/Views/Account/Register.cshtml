@@ -1,0 +1,235 @@
+﻿@model InventoryMangmentMvc.Models.RegisterViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Inventory Management</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .register-container {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @@keyframes slideUp {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        .register-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 35px 30px;
+            text-align: center;
+            color: white;
+        }
+
+            .register-header i {
+                font-size: 45px;
+                margin-bottom: 12px;
+            }
+
+            .register-header h2 {
+                font-size: 26px;
+                font-weight: 700;
+                margin-bottom: 5px;
+            }
+
+            .register-header p {
+                font-size: 13px;
+                opacity: 0.9;
+            }
+
+        .register-body {
+            padding: 35px 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 7px;
+                color: #333;
+                font-weight: 600;
+                font-size: 14px;
+            }
+
+        .input-group-custom {
+            position: relative;
+        }
+
+            .input-group-custom i {
+                position: absolute;
+                left: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #667eea;
+                font-size: 16px;
+            }
+
+        .form-control {
+            width: 100%;
+            padding: 11px 15px 11px 42px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+            .form-control:focus {
+                outline: none;
+                border-color: #667eea;
+                box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            }
+
+        .btn-register {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+            .btn-register:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+            }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+            .login-link a {
+                color: #667eea;
+                text-decoration: none;
+                font-weight: 600;
+            }
+
+                .login-link a:hover {
+                    text-decoration: underline;
+                }
+
+        .validation-summary-errors {
+            background: #fee;
+            border: 1px solid #fcc;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+            .validation-summary-errors ul {
+                margin: 0;
+                padding-left: 20px;
+                color: #c00;
+            }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-header">
+            <i class="fas fa-user-plus"></i>
+            <h2>Create Account</h2>
+            <p>Join our inventory management system</p>
+        </div>
+        <div class="register-body">
+            @Html.ValidationSummary(false, "", new { @class = "validation-summary-errors" })
+
+            <form asp-action="Register" method="post">
+                <div class="form-group">
+                    <label asp-for="Username">Username</label>
+                    <div class="input-group-custom">
+                        <i class="fas fa-user"></i>
+                        <input asp-for="Username" class="form-control" placeholder="Choose a username" required />
+                    </div>
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="FullName">Full Name</label>
+                    <div class="input-group-custom">
+                        <i class="fas fa-id-card"></i>
+                        <input asp-for="FullName" class="form-control" placeholder="Enter your full name" required />
+                    </div>
+                    <span asp-validation-for="FullName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email">Email</label>
+                    <div class="input-group-custom">
+                        <i class="fas fa-envelope"></i>
+                        <input asp-for="Email" type="email" class="form-control" placeholder="Enter your email" required />
+                    </div>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Password">Password</label>
+                    <div class="input-group-custom">
+                        <i class="fas fa-lock"></i>
+                        <input asp-for="Password" type="password" class="form-control" placeholder="Create a password" required />
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn-register">
+                    <i class="fas fa-user-check"></i> Register
+                </button>
+
+                <div class="login-link">
+                    Already have an account? <a asp-action="Login">Login here</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

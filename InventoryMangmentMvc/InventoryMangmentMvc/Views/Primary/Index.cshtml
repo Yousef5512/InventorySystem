@@ -1,0 +1,103 @@
+﻿@model List<InventoryMangmentMvc.Models.ProductViewModel>
+@{
+    ViewData["Title"] = "Primary User Dashboard";
+}
+
+<div class="page-header">
+    <h1><i class="fas fa-crown"></i> Primary User Dashboard</h1>
+    <p>Full system control and management</p>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-center">
+            <h5><i class="fas fa-plus-circle"></i> Create Product</h5>
+            <a href="@Url.Action("CreateProduct")" class="btn btn-primary">
+                <i class="fas fa-plus"></i> New Product
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <h5><i class="fas fa-user-tag"></i> Assign Role</h5>
+            <a href="@Url.Action("AssignRole")" class="btn btn-primary">
+                <i class="fas fa-user-cog"></i> Manage Roles
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <h5><i class="fas fa-shopping-cart"></i> Create Order</h5>
+            <a href="@Url.Action("CreateOrder")" class="btn btn-primary">
+                <i class="fas fa-cart-plus"></i> New Order
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <h5><i class="fas fa-user-minus"></i> Delete User</h5>
+            <a href="@Url.Action("DeleteUser")" class="btn btn-danger">
+                <i class="fas fa-trash"></i> Remove User
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h5><i class="fas fa-boxes"></i> All Products</h5>
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Product Name</th>
+                    <th>Code</th>
+                    <th>Material</th>
+                    <th>Size</th>
+                    <th>Type</th>
+                    <th>Flavour</th>
+                    <th>Quantity</th>
+                    <th>Expiration</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model)
+                {
+                    <tr>
+                        <td><strong>#@product.Id</strong></td>
+                        <td>@product.ProductName</td>
+                        <td><code>@product.ProductIdCode</code></td>
+                        <td>@product.Material</td>
+                        <td>@product.Size</td>
+                        <td>@product.Type</td>
+                        <td>@product.Flavour</td>
+                        <td><span class="badge bg-info">@product.Quantity</span></td>
+                        <td>@(product.ExpirationDate?.ToString("MMM dd, yyyy") ?? "N/A")</td>
+                        <td>
+                            <a href="@Url.Action("EditProduct", new { id = product.Id })" class="btn btn-sm btn-warning">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form asp-action="DeleteProduct" asp-route-id="@product.Id" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this product?')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i> No products found.
+        </div>
+    }
+</div>
+
+<!-- ============================================ -->
+<!-- Views/Primary/CreateProduct.cshtml -->
+<!-- ============================================ -->

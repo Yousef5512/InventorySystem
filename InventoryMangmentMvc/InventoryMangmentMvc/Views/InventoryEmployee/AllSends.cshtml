@@ -1,0 +1,53 @@
+﻿<!-- Views/InventoryEmployee/AllSends.cshtml -->
+@model List<InventoryMangmentMvc.Models.ProductSendViewModel>
+@{
+    ViewData["Title"] = "All Product Sends";
+}
+
+<div class="page-header">
+    <h1><i class="fas fa-list"></i> All Product Sends</h1>
+    <p>Complete list of all product send records</p>
+</div>
+
+<div class="card">
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Send ID</th>
+                    <th>Send Date</th>
+                    <th>Status</th>
+                    <th>Products Count</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var send in Model)
+                {
+                    <tr>
+                        <td><strong>#@send.Id</strong></td>
+                        <td>@send.SendDate.ToString("MMM dd, yyyy")</td>
+                        <td>
+                            <span class="badge @(send.Status == "Received" ? "bg-success" : send.Status == "Partial" ? "bg-warning" : "bg-secondary")">
+                                @send.Status
+                            </span>
+                        </td>
+                        <td>@send.Details.Count items</td>
+                        <td>
+                            <button class="btn btn-sm btn-info" onclick="viewDetails(@send.Id)">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i> No send records found.
+        </div>
+    }
+</div>

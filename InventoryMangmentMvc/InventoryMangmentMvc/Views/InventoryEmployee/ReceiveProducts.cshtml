@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Receive Products";
+}
+
+<div class="page-header">
+    <h1><i class="fas fa-truck-loading"></i> Receive Products</h1>
+    <p>Process incoming product shipments</p>
+</div>
+
+<div class="card">
+    <h5>Enter Send ID</h5>
+    <form asp-action="ReceiveProducts" method="post">
+        <div class="row">
+            <div class="col-md-6">
+                <label>Product Send ID:</label>
+                <input type="number" name="sendId" class="form-control" placeholder="Enter send ID" required min="1" />
+            </div>
+            <div class="col-md-6 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-check"></i> Receive Products
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+

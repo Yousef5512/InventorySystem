@@ -1,0 +1,42 @@
+﻿<!-- Views/ReceivingClerk/Index.cshtml -->
+@{
+    ViewData["Title"] = "Receiving Clerk Dashboard";
+}
+
+<div class="page-header">
+    <h1><i class="fas fa-dolly"></i> Receiving Clerk Dashboard</h1>
+    <p>Manage incoming product deliveries</p>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <h5><i class="fas fa-box-open"></i> Receive Products</h5>
+            <p class="text-muted">Process incoming product shipments from suppliers</p>
+            <a href="@Url.Action("ReceiveProducts")" class="btn btn-primary">
+                <i class="fas fa-truck"></i> Start Receiving
+            </a>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <h5><i class="fas fa-clipboard-check"></i> Update Inventory</h5>
+            <p class="text-muted">Confirm received items and update inventory</p>
+            <div class="alert alert-info mb-0">
+                <i class="fas fa-info-circle"></i> Use the receive products function first
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <h5><i class="fas fa-tasks"></i> Receiving Process</h5>
+    <ol class="mb-0">
+        <li>Enter the Product Send ID from the supplier</li>
+        <li>Review the list of products to be received</li>
+        <li>Check each item and confirm receipt</li>
+        <li>Update inventory with received quantities</li>
+    </ol>
+</div>
+
+

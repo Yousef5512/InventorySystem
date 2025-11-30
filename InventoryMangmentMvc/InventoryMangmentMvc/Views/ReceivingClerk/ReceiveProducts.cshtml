@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "Receive Products";
+}
+
+<div class="page-header">
+    <h1><i class="fas fa-box-open"></i> Receive Products</h1>
+    <p>Process incoming shipments from suppliers</p>
+</div>
+
+<div class="card">
+    <h5>Enter Product Send Information</h5>
+    <form asp-action="ReceiveProducts" method="post">
+        <div class="row">
+            <div class="col-md-8">
+                <label>Product Send ID:</label>
+                <input type="number" name="productSendId" class="form-control"
+                       placeholder="Enter the send ID from supplier" required min="1" />
+                <small class="form-text text-muted">
+                    <i class="fas fa-info-circle"></i> This ID should be provided by the supplier
+                </small>
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-search"></i> Load Products
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="card">
+    <h5><i class="fas fa-lightbulb"></i> Instructions</h5>
+    <ul class="mb-0">
+        <li>Verify the Product Send ID with the supplier's documentation</li>
+        <li>Ensure all products are physically present before confirming</li>
+        <li>Check for any damage or discrepancies</li>
+        <li>Update quantities if they differ from the sent amount</li>
+    </ul>
+</div>
+
+

@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Supplier Dashboard";
+}
+
+<div class="page-header">
+    <h1><i class="fas fa-truck"></i> Supplier Dashboard</h1>
+    <p>Manage product shipments and deliveries</p>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <h5><i class="fas fa-inbox"></i> Receive from Inventory</h5>
+            <p class="text-muted">Process incoming products from inventory department</p>
+            <a href="@Url.Action("ReceiveFromInventory")" class="btn btn-primary">
+                <i class="fas fa-box-open"></i> Receive Products
+            </a>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <h5><i class="fas fa-shipping-fast"></i> Pending Shipments</h5>
+            <p class="text-muted">View and manage pending product shipments</p>
+            <div class="alert alert-info mb-0">
+                <i class="fas fa-info-circle"></i> Receive products first to see pending items
+            </div>
+        </div>
+    </div>
+</div>

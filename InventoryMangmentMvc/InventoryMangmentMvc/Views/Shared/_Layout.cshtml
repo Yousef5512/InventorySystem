@@ -1,0 +1,334 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Inventory Management</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --sidebar-width: 260px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+        }
+
+        .wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+            .sidebar-header i {
+                font-size: 40px;
+                margin-bottom: 10px;
+            }
+
+            .sidebar-header h3 {
+                font-size: 20px;
+                font-weight: 700;
+            }
+
+            .sidebar-header p {
+                font-size: 13px;
+                opacity: 0.8;
+                margin-top: 5px;
+            }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .menu-item {
+            padding: 15px 25px;
+            display: block;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+            .menu-item:hover {
+                background: rgba(255,255,255,0.1);
+                border-left-color: white;
+                color: white;
+            }
+
+            .menu-item.active {
+                background: rgba(255,255,255,0.15);
+                border-left-color: white;
+            }
+
+            .menu-item i {
+                margin-right: 12px;
+                width: 20px;
+                text-align: center;
+            }
+
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+        }
+
+        .top-navbar {
+            background: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .top-navbar h4 {
+                margin: 0;
+                color: #333;
+                font-size: 22px;
+            }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+
+        .btn-logout {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+            .btn-logout:hover {
+                background: #c82333;
+                transform: translateY(-2px);
+                color: white;
+            }
+
+        .content-area {
+            padding: 30px;
+        }
+
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+            .page-header h1 {
+                font-size: 28px;
+                color: #333;
+                margin-bottom: 5px;
+            }
+
+            .page-header p {
+                color: #666;
+                font-size: 14px;
+            }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            padding: 25px;
+            margin-bottom: 25px;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            }
+
+        .alert {
+            border-radius: 10px;
+            border: none;
+            padding: 15px 20px;
+        }
+
+        .table {
+            margin-top: 20px;
+        }
+
+            .table thead {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+            }
+
+                .table thead th {
+                    border: none;
+                    padding: 15px;
+                }
+
+            .table tbody tr {
+                transition: all 0.3s ease;
+            }
+
+                .table tbody tr:hover {
+                    background: #f8f9fa;
+                    transform: scale(1.01);
+                }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-boxes"></i>
+                <h3>Inventory System</h3>
+                <p>@User.Identity.Name</p>
+            </div>
+            <div class="sidebar-menu">
+                @if (User.IsInRole("InventoryEmployee"))
+                {
+                    <a href="@Url.Action("Index", "InventoryEmployee")" class="menu-item">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                    <a href="@Url.Action("NearExpiration", "InventoryEmployee")" class="menu-item">
+                        <i class="fas fa-calendar-times"></i> Near Expiration
+                    </a>
+                    <a href="@Url.Action("AllSends", "InventoryEmployee")" class="menu-item">
+                        <i class="fas fa-list"></i> All Sends
+                    </a>
+                    <a href="@Url.Action("ReceiveProducts", "InventoryEmployee")" class="menu-item">
+                        <i class="fas fa-truck-loading"></i> Receive Products
+                    </a>
+                    <a href="@Url.Action("SendToExternal", "InventoryEmployee")" class="menu-item">
+                        <i class="fas fa-paper-plane"></i> Send to External
+                    </a>
+                    <a href="@Url.Action("SendOrderToSupplier", "InventoryEmployee")" class="menu-item">
+                        <i class="fas fa-shipping-fast"></i> Order to Supplier
+                    </a>
+                }
+                @if (User.IsInRole("InventoryOrganizer"))
+                {
+                    <a href="@Url.Action("Index", "InventoryOrganizer")" class="menu-item">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                }
+                @if (User.IsInRole("ReceivingClerk"))
+                {
+                    <a href="@Url.Action("Index", "ReceivingClerk")" class="menu-item">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                    <a href="@Url.Action("ReceiveProducts", "ReceivingClerk")" class="menu-item">
+                        <i class="fas fa-box-open"></i> Receive Products
+                    </a>
+                }
+                @if (User.IsInRole("Supplier"))
+                {
+                    <a href="@Url.Action("Index", "Supplier")" class="menu-item">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                    <a href="@Url.Action("ReceiveFromInventory", "Supplier")" class="menu-item">
+                        <i class="fas fa-inbox"></i> Receive from Inventory
+                    </a>
+                }
+                @if (User.IsInRole("PrimaryUser"))
+                {
+                    <a href="@Url.Action("Index", "Primary")" class="menu-item">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                    <a href="@Url.Action("CreateProduct", "Primary")" class="menu-item">
+                        <i class="fas fa-plus-circle"></i> Create Product
+                    </a>
+                    <a href="@Url.Action("AssignRole", "Primary")" class="menu-item">
+                        <i class="fas fa-user-tag"></i> Assign Role
+                    </a>
+                    <a href="@Url.Action("CreateOrder", "Primary")" class="menu-item">
+                        <i class="fas fa-shopping-cart"></i> Create Order
+                    </a>
+                    <a href="@Url.Action("DeleteUser", "Primary")" class="menu-item">
+                        <i class="fas fa-user-minus"></i> Delete User
+                    </a>
+                }
+            </div>
+        </nav>
+
+        <div class="main-content">
+            <div class="top-navbar">
+                <h4>@ViewData["Title"]</h4>
+                <div class="user-info">
+                    <div class="user-avatar">
+                        @User.Identity.Name?.Substring(0, 1).ToUpper()
+                    </div>
+                    <span>@User.Identity.Name</span>
+                    <a href="@Url.Action("Logout", "Account")" class="btn-logout">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
+            </div>
+
+            <div class="content-area">
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i> @TempData["SuccessMessage"]
+                    </div>
+                }
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-circle"></i> @TempData["ErrorMessage"]
+                    </div>
+                }
+
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

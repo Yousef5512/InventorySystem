@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "Inventory Employee Dashboard";
+}
+
+<div class="page-header">
+    <h1><i class="fas fa-tachometer-alt"></i> Inventory Employee Dashboard</h1>
+    <p>Manage inventory operations</p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <h5><i class="fas fa-calendar-times"></i> Near Expiration</h5>
+            <p class="text-muted">Check products near expiration date</p>
+            <a href="@Url.Action("NearExpiration")" class="btn btn-primary">
+                <i class="fas fa-search"></i> View Products
+            </a>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <h5><i class="fas fa-truck-loading"></i> Receive Products</h5>
+            <p class="text-muted">Receive incoming product shipments</p>
+            <a href="@Url.Action("ReceiveProducts")" class="btn btn-primary">
+                <i class="fas fa-box"></i> Receive
+            </a>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <h5><i class="fas fa-list"></i> All Sends</h5>
+            <p class="text-muted">View all product send records</p>
+            <a href="@Url.Action("AllSends")" class="btn btn-primary">
+                <i class="fas fa-eye"></i> View All
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <h5><i class="fas fa-paper-plane"></i> Send to External</h5>
+            <p class="text-muted">Send products to external locations</p>
+            <a href="@Url.Action("SendToExternal")" class="btn btn-primary">
+                <i class="fas fa-shipping-fast"></i> Send Products
+            </a>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <h5><i class="fas fa-shopping-cart"></i> Order to Supplier</h5>
+            <p class="text-muted">Create and send orders to suppliers</p>
+            <a href="@Url.Action("SendOrderToSupplier")" class="btn btn-primary">
+                <i class="fas fa-file-invoice"></i> Create Order
+            </a>
+        </div>
+    </div>
+</div>

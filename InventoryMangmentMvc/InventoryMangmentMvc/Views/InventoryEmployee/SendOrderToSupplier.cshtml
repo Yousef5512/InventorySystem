@@ -1,0 +1,124 @@
+﻿@{
+    ViewData["Title"] = "Send Order to Supplier";
+}
+
+<div class="container mt-4">
+    <h2><i class="bi bi-send"></i> Send Order to Supplier</h2>
+    <p class="text-muted">Create and send a new order to a supplier</p>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Order Information</h5>
+
+            <form id="orderForm" method="post" asp-action="SendOrderToSupplier">
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="orderNumber">Order Number:</label>
+                            <input type="text" class="form-control" name="OrderNumber" placeholder="e.g., ORD-001" required />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="orderDate">Order Date:</label>
+                            <input type="datetime-local" class="form-control" name="OrderDate" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" required />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="orderCode">Order Code: <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="OrderCode" placeholder="e.g., CODE-2024-001" required />
+                            <small class="form-text text-muted">Unique code for this order (required by API)</small>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="orderType">Order Type: <span class="text-danger">*</span></label>
+                            <select class="form-control" name="OrderType" required>
+                                <option value="">-- Select Type --</option>
+                                <option value="Purchase">Purchase</option>
+                                <option value="Restock">Restock</option>
+                                <option value="Emergency">Emergency</option>
+                                <option value="Regular">Regular</option>
+                            </select>
+                            <small class="form-text text-muted">Type of order (required by API)</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="supplierId">Supplier ID:</label>
+                            <input type="text" class="form-control" id="supplierId" name="supplierId" placeholder="Enter supplier ID" required />
+                        </div>
+                    </div>
+                </div>
+
+                <h6 class="mt-4">Product Information:</h6>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="productId">Product ID:</label>
+                            <input type="number" class="form-control" id="productId" name="ProductId" min="1" placeholder="Enter product ID" required />
+                            <small class="form-text text-muted">Must be a valid product ID from your inventory</small>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="quantity">Quantity:</label>
+                            <input type="number" class="form-control" id="quantity" name="Quantity" min="1" placeholder="Enter quantity" required />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-send"></i> Send Order
+                    </button>
+                    <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
+                        <i class="bi bi-x"></i> Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Form validation before submit
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            const productId = document.getElementById('productId').value;
+            const quantity = document.getElementById('quantity').value;
+
+            if (!productId || parseInt(productId) <= 0) {
+                e.preventDefault();
+                alert('Please enter a valid Product ID (must be greater than 0)');
+                document.getElementById('productId').focus();
+                return false;
+            }
+
+            if (!quantity || parseInt(quantity) <= 0) {
+                e.preventDefault();
+                alert('Please enter a valid Quantity (must be greater than 0)');
+                document.getElementById('quantity').focus();
+                return false;
+            }
+        });
+    </script>
+}
