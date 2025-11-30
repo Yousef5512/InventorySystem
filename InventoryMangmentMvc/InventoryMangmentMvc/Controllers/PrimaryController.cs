@@ -244,8 +244,10 @@ namespace InventoryMangmentMvc.Controllers
 
             try
             {
-                var result = await _apiService.PostAsync<string>($"primary/delete-user/{username}", null);
-                TempData["SuccessMessage"] = $"User '{username}' deleted successfully";
+                // Use DeleteAsync instead of PostAsync
+                var result = await _apiService.DeleteAsync<string>($"primary/delete-user/{username}");
+
+                TempData["SuccessMessage"] = result; // API returns confirmation string
                 return View();
             }
             catch (Exception ex)
@@ -254,5 +256,6 @@ namespace InventoryMangmentMvc.Controllers
                 return View();
             }
         }
+
     }
 }
